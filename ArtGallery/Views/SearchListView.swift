@@ -12,29 +12,32 @@ struct SearchListView: View {
     
     @State var loading = false
     @State var errorOccurred = false
-    @State var results: [Artwork] = []
+    @State var results: [ArtworkSearched] = []
     
     var body: some View {
-        
-        if loading {
-           ProgressView()
-       }
-        else if errorOccurred {
-            Text("Sorry, something went wrong.")
-        } else {
-            VStack{
-                Text("Hello")
-                ArtResultRow(result: Artwork(id: 16571, title: "Arrival of the Normandy Train, Gare Saint-Lazare", api_link: "https://api.artic.edu/api/v1/artworks/16571", api_model: "artworks",  date_display:  "1877", artist_title: "Claude Monet", image_id: "0f1cc0e0-e42e-be16-3f71-2022da38cb93"))
-            }
-//            ForEach(results, id: \.self){artwork in
-//                Text("\(artwork.title)")
-//            }
+        VStack{
+            if loading {
+               ProgressView()
+           } else if errorOccurred {
+                Text("Sorry, something went wrong.")
+           } else {
+                VStack{
+                    Text("Hello")
+                    Text("\(results[0].title)")
+                    List(results, id: \.self) { artwork in
+                        ArtResultRow(result: artwork)
+                    }.refreshable {
+                        await loadSearchResults()
+                    }
+    //                ArtResultRow(result: ArtworkSearched(id: 16571, title: "Arrival of the Normandy Train, Gare Saint-Lazare", api_link: "https://api.artic.edu/api/v1/artworks/16571"))
+                }
+           }
+        }
+        .task(id: searchTerm){
+            await loadSearchResults()
+        }
                 
-//            ForEach(results, id: \.self) { artwork in
-//                List {
-//                    ArtResultRow(result: artwork)
-//                }
-//            }
+            
 //            NavigationView{
 //                Text("Hello")
 //                //ArtResultRow(result: results[0])
@@ -51,10 +54,8 @@ struct SearchListView: View {
 //                        await loadSearchResults()
 //                    }
         
-//            .task(id: searchTerm) {
-//                await loadSearchResults()
-//            }
-        }
+                
+
     
     }
     
@@ -75,6 +76,7 @@ struct SearchListView: View {
         loading = false
     }
 }
+
 
 
 

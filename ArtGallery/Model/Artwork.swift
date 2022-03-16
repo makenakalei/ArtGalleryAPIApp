@@ -24,11 +24,15 @@ struct Artwork: Hashable, Codable, Identifiable {
        return url
     }
 }
-
+struct ArtworkSearched: Hashable, Codable, Identifiable {
+    var id: Int
+    var title: String
+    var api_link: String
+}
 
 // For this demo, we use this struct solely for figuring out how many items are
 // in a resource. It can definitely be expanded to do more.
 struct ArtICPage: Hashable, Codable {
     var total: Int
-    var data: [Artwork]
+    var data: [ArtworkSearched]
 }
