@@ -12,14 +12,13 @@ struct ArtResultRow: View {
    
     var body: some View {
         HStack(){
-            //PrintView(imageUrl: result.getPrintLink(size: "200"))
-            Spacer()
             Text(result.title)
                 .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(Color.black)
                     .multilineTextAlignment(.leading)
         }
+        .padding(.leading)
     }
    
 }

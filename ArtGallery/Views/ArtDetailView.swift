@@ -15,9 +15,7 @@ struct ArtDetailView: View {
     
     var body: some View {
         VStack{
-            Text("hello")
             if let loadedArt = art{
-                Text("hello load")
                 VStack(alignment: .leading){
                     PrintView(imageUrl: loadedArt.getPrintLink(size: "200"))
                     VStack(alignment: .leading){
@@ -38,6 +36,7 @@ struct ArtDetailView: View {
             await loadArtwork()
         }
     }
+    
     func loadArtwork() async{
         errorOccurred = false
         art = nil
@@ -48,7 +47,7 @@ struct ArtDetailView: View {
         } catch ArtICAPIError.unexpectedAPIError {
             errorOccurred = true
         } catch {
-            // Only a dev will be able to see this, of course.
+
             debugPrint("Unexpected error: \(error)")
         }
         loading = false

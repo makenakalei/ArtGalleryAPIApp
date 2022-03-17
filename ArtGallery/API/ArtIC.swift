@@ -20,8 +20,8 @@ func getArtwork(id: Int) async throws -> Artwork {
         fatalError("Should never happen, but just in case…URL didn’t work 😔")
     }
     let (data, _) = try await URLSession.shared.data(from: url)
-    if let decodedArt = try? JSONDecoder().decode(Artwork.self, from: data) {
-        return decodedArt
+    if let decodedArt = try? JSONDecoder().decode(ArtworkResult.self, from: data) {
+        return decodedArt.data
     } else {
         throw ArtICAPIError.artworkNotFound
     }
@@ -29,8 +29,6 @@ func getArtwork(id: Int) async throws -> Artwork {
 
 
 func searchARTIC(term: String) async throws -> ArtICPage {
-    // There are more structured ways to construct a URL with query parameters but
-    // this suffices for this fixed pair.
     guard let url = URL(string: "https://api.artic.edu/api/v1/artworks/search?q=\(term)") else {
         fatalError("Should never happen, but just in case…URL didn’t work 😔")
     }

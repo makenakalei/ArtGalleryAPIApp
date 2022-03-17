@@ -9,20 +9,23 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var searchTerm: String = ""
+    @State private var activeSearch: String = ""
     
     var body: some View {
         VStack(alignment: .leading){
-            PrintView(imageUrl: URL(string: "https://www.artic.edu/iiif/2/1adf2696-8489-499b-cad2-821d7fde4b33/full/200,/0/default.jpg")!)
             VStack(alignment: .leading){
                 Text("ART GALLERY")
-                    .foregroundColor(Color.white)
+                    .foregroundColor(Color.black)
                 Text("The Art Institue of Chicago")
-            }.padding(.top, -30.0).padding(.leading, 6.0)
-            TextField("Search", text: $searchTerm)
+                    .foregroundColor(Color.white)
+            }.padding(.top, 10.0).padding(.leading, 10.0).padding(.trailing, 106.0)
+                .background(Color.red)
+            TextField("Search", text: $activeSearch)
                 .submitLabel(.search)
                 .onSubmit{
-                    SearchListView(searchTerm: searchTerm)
+                    searchTerm = activeSearch.filter { !$0.isWhitespace }
                 }
+            SearchListView(searchTerm: searchTerm)
             
             
             
